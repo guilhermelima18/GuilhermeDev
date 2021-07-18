@@ -1,4 +1,4 @@
-import styles from './styles.module.css';
+import styles from './styles.module.scss';
 
 export default function Footer() {
   return (
@@ -10,5 +10,5 @@ export default function Footer() {
       </div>
       <span>Todos os direitos reservados &copy; 2021</span>
     </footer>
-  )
-}
+  );
+};

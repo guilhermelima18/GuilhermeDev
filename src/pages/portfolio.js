@@ -1,15 +1,44 @@
-import Head from 'next/head';
+import { useEffect, useState } from 'react';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 
-import Projects from '../components/Projects/index';
+import styles from '../styles/portfolio.module.scss';
 
 export default function Portfolio() {
+  const [projects, setProjects] = useState([]);
+
+  useEffect(() => {
+    fetch('https://api.github.com/users/guilhermelima18/repos')
+      .then(response => response.json())
+      .then(data => setProjects(data))
+  }, [])
+
   return (
     <>
-      <Head>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.css" />
-        <title>Portfólio | Guilherme Lima</title>
-      </Head>
-      <Projects />
+      <Header />
+      <div className={styles.container}>
+        <h4>Projetos no Github</h4>
+        <div className={styles.projects}>
+          {
+            projects
+              .map(({ id, name, description, language }) => {
+                return (
+                  <div key={id} className={styles.card}>
+                    <h2>{name}</h2>
+                    <p>{description}</p>
+                    <footer>
+                      <p>{language}</p>
+                      <p>
+                        <a href={`https://github.com/guilhermelima18/${name}`} target="_blank" rel="noreferrer">Ver mais</a>
+                      </p>
+                    </footer>
+                  </div>
+                )
+              })
+          }
+        </div>
+      </div>
+      <Footer />
     </>
   );
 };
